@@ -47,7 +47,7 @@ def is_chunk_interesting(img):
     print(std)
     return std > threshold
 
-def process_image(img):
+def process_image(img, num):
     chunk_size = 500
     target_size = 500
     chunks = get_chunks(img, chunk_size)
@@ -57,6 +57,13 @@ def process_image(img):
         chunk = chunk.resize((target_size, target_size), Image.ANTIALIAS)
         if is_chunk_interesting(chunk):
             #Save chunk to folder
-            chunk.save(os.path.join(chunk_folder, str(i) + ".jpg"))
+            chunk.save(os.path.join(chunk_folder, str(num) + "_" + str(i) + ".jpg"))
 
-process_image(img)
+# process_image(img)
+
+#Process all images in SRTM folder
+srtm_folder = "./SRTM"
+for i, f in enumerate(os.listdir(srtm_folder)):
+    path = os.path.join(srtm_folder, f)
+    img = Image.open(path)
+    process_image(img, i)
